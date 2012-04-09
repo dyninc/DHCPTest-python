@@ -1,0 +1,12 @@
+Script will load test a DHCP server by continuosly requesting address leases in a loop using randomly generated mac addresses. This will run serially as written, if you want to have multiple scripts running you will
+need to run it in several processes. Be aware that if you run it in multiple processes you may run into a number of lease failures on your DHCP client
+do to multiple discover packets hitting before a request hits thus several requests for the same address may occur. This is the normal behavior as in a real
+setup a client would then retry several times in the event this occurs. (one thing you *MAY* need to do is set promiscuous for the pcap object -> the open_live call)
+
+This is by no means a comprehensive DHCP test, just a little one off script to vefiy that a server is able to handle load numbers.
+
+-Couple of pretty simple but sometimes forgotten notes:
+  *Make sure your DHCP server is reachable via it's IP (the client curring the script can see the subnet it's on) 
+  *Make sure your DHCP server isn't attempting to lease its own ip (in other words don't assign an ip for testing within the lease range)
+
+Usage: dhcp_test.py [DHCP server IP] [DHCP server port - Optional defaults to 67] [Number of Loops - Optional defaults to 1]
